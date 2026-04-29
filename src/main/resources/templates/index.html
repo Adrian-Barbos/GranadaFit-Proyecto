@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GranadaFit | Tienda de Suplementos deportivos</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="logo">Granada<span>Fit</span></div>
+    <ul class="nav-links">
+      <li><a th:href="@{/index}">Inicio</a></li>
+      <li><a th:href="@{/productos}">Productos</a></li>
+      <li><a th:href="@{/precios}">Precios</a></li>
+    </ul>
+
+    <div sec:authorize="isAnonymous()">
+      <a href="/login" class="btn-login">Iniciar Sesión</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+      <span>Hola, <strong sec:authentication="name">Usuario</strong></span>
+      <a th:href="@{/perfil}" class="btn-login">Mi Perfil</a>
+      <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit" class="btn-salir">Salir</button>
+      </form>
+    </div>
+
+  </nav>
+</header>
+
+<section id="inicio" class="hero">
+  <div class="hero-content">
+    <h1>Potencia tu <span class="highlight">Rendimiento</span></h1>
+    <h3>Los <span>mejores suplementos</span> para alcanzar tus metas fitness.</h3>
+    <a href="productos.html" class="btn-main">Productos</a>
+  </div>
+</section>
+
+<section id="sobre-nosotros" class="about-section">
+  <div class="container about-flex">
+    <div class="about-text">
+      <h2>Sobre <span class="highlight">Nosotros</span></h2>
+      <p>En <strong>GranadaFit</strong>, no solo vendemos suplementos; impulsamos tu estilo de vida. Nacimos con la misión de ofrecer la mejor suplementación deportiva con asesoramiento real.</p>
+      <p>Seleccionamos cada producto bajo los más altos estándares de calidad para que tú solo te preocupes de entrenar duro.</p>
+    </div>
+    <div class="about-img-grid">
+      <div class="img-box">
+        <img th:src="@{/img/img-index/productos.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <div class="img-box">
+        <img th:src="@{/img/img-index/equipo.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="opiniones" class="container">
+  <h2 class="section-title">Lo que dicen nuestros atletas</h2>
+  <div class="grid-opiniones">
+    <div class="opinion-card">
+      <div class="customer-img">
+        <img th:src="@{/img/img-index/c1.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <p class="review">"La proteína de GranadaFit tiene un sabor increíble y se disuelve perfecto. ¡100% recomendados!"</p>
+      <h4>- Juan Pérez</h4>
+    </div>
+    <div class="opinion-card">
+      <div class="customer-img">
+        <img th:src="@{/img/img-index/c2.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <p class="review">"Envío súper rápido a Granada. La creatina es de una calidad superior a lo que compraba antes."</p>
+      <h4>- María García</h4>
+    </div>
+    <div class="opinion-card">
+      <div class="customer-img">
+        <img th:src="@{/img/img-index/c3.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+
+      </div>
+      <p class="review">"Me ayudaron a elegir mi pre-entreno por WhatsApp. Trato muy cercano y profesional."</p>
+      <h4>- Carlos Ruiz</h4>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 GranadaFit</p>
+</footer>
+
+</body>
+</html>
