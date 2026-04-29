@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil | GranadaFit</title>
+    <style>
+        /* Animación de entrada */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            background-color: #f8f9fa; /* Gris muy claro formal */
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenedor principal de dos paneles */
+        .main-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Paneles */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 40px;
+        }
+
+        /* Panel Izquierdo (Perfil) */
+        .profile-card {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Panel Derecho (Actividad) */
+        .info-card {
+            flex: 1.5;
+        }
+
+        /* Identidad de Marca */
+        .brand-text {
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .brand-text span { color: #007bff; }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            font-weight: 300;
+        }
+
+        h2 { margin: 0; font-size: 24px; color: #222; }
+        .user-email { color: #888; font-size: 14px; margin-bottom: 25px; display: block; }
+        .divider { height: 1px; background: #eee; margin: 20px 0; }
+
+        /* Botones del Panel Izquierdo */
+        .btn-botones {
+            display: block;
+            background-color: #007bff;
+            color: white !important;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .btn-botones:hover { background-color: #0056b3; transform: translateY(-1px); }
+
+        .btn-outline {
+            display: block;
+            border: 1px solid #ddd;
+            color: #555;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .btn-outline:hover { background: #f5f5f5; }
+
+        /* Estilos de Actividad (Derecha) */
+        .header-actividad {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #222;
+        }
+
+        /* Mini Objetivos junto al título */
+        .mini-obj-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .mini-obj {
+            background: #f0f7ff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #007bff;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #d0e7ff;
+        }
+
+        /* Contador de Días */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .days-circle {
+            background: #f8f9fa;
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 4px solid #007bff;
+        }
+
+        .data-value { font-weight: 800; font-size: 20px; color: #333; }
+
+        /* Suscripción */
+        .plan-badge {
+            background-color: #007bff;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Desafíos */
+        .objetivo-item {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .objetivo-item:hover { border-color: #007bff; background: #fcfdff; }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #ff4757;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 20px;
+            width: 100%;
+            opacity: 0.8;
+        }
+        .logout-btn:hover { opacity: 1; text-decoration: underline; }
+
+        /* Mobile Responsive */
+        @media (max-width: 800px) {
+            .main-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+
+    <div class="card profile-card">
+        <div class="brand-text">Granada<span>Fit</span></div>
+
+        <div class="avatar-circle" th:text="${#authentication.name.substring(0,1).toUpperCase()}">U</div>
+
+        <h2 th:text="${#authentication.name}">user</h2>
+        <span class="user-email">Miembro Oficial GranadaFit</span>
+
+        <div class="divider"></div>
+
+        <a th:href="@{/}" class="btn-botones">Volver al Inicio</a>
+        <a th:href="@{/productos}" class="btn-outline">Mis Pedidos</a>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-btn">Cerrar Sesión Segura</button>
+        </form>
+    </div>
+
+    <div class="card info-card">
+        <div class="header-actividad">
+            <div class="section-title">Resumen Actividad</div>
+            <div class="mini-obj-container">
+                <div class="mini-obj">🎯 <span>20 d</span></div>
+                <div class="mini-obj">🔥 <span>15k</span></div>
+                <div class="mini-obj">⚡ <span>5 d</span></div>
+            </div>
+        </div>
+
+        <div class="data-row">
+            <div style="color: #666;">Días entrenados (este mes)</div>
+            <div class="days-circle">
+                <span class="data-value">14</span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title" style="margin-bottom: 20px;">Suscripción Actual</div>
+        <div class="data-row" style="margin-bottom: 15px;">
+            <div style="color: #666;">Tipo de Plan:</div>
+            <span class="plan-badge">Premium</span>
+        </div>
+        <p style="font-size: 13px; color: #999; line-height: 1.5; margin: 0;">
+            Acceso total a sala de musculación, clases dirigidas y seguimiento nutricional incluido.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="section-title" style="margin-bottom: 15px; font-size: 14px; color: #888;">Desafíos Semanales</div>
+        <div class="objetivo-item"><span>✅</span> Beber 2L de agua diarios</div>
+        <div class="objetivo-item"><span>⏳</span> Completar 3 sesiones de cardio</div>
+        <div class="objetivo-item"><span>⏳</span> Nuevo récord en Press Banca</div>
+    </div>
+
+</div>
+
+</body>
+</html>
