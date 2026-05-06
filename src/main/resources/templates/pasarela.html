@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Seguro | GranadaFit</title>
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+
+        .checkout-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .brand { font-weight: bold; font-size: 24px; margin-bottom: 30px; }
+        .brand span { color: #007bff; }
+
+        .payment-info { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 25px; text-align: left; }
+        .payment-info div { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #666; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+
+        .btn-pagar {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-pagar:hover { background: #0056b3; }
+
+        .secure-text { font-size: 11px; color: #999; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="checkout-container">
+    <div class="brand">Granada<span>Fit</span> Checkout</div>
+
+    <div class="payment-info">
+        <div><span>Plan Seleccionado:</span> <strong>Plus / Pro</strong></div>
+        <div><span>Total a pagar:</span> <strong style="color: #007bff;">20.00€</strong></div>
+    </div>
+
+    <form th:action="@{/pago-exitoso}" method="get">
+
+        <div class="form-group">
+            <label>NOMBRE EN LA TARJETA</label>
+            <input type="text" placeholder="Juan Pérez" required>
+        </div>
+
+        <div class="form-group">
+            <label>NÚMERO DE TARJETA</label>
+            <input type="text" placeholder="**** **** **** 1234" required>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <div class="form-group" style="flex: 2;">
+                <label>CADUCIDAD</label>
+                <input type="text" placeholder="MM/YY" required>
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>CVC</label>
+                <input type="text" placeholder="123" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-pagar">Finalizar Pago Seguro</button>
+    </form>
+
+    <div class="secure-text">
+        🔒 Pago encriptado con tecnología SSL de 256 bits
+    </div>
+
+    <a th:href="@{/precios}" style="display: block; margin-top: 15px; font-size: 13px; color: #888; text-decoration: none;">Cancelar y volver</a>
+</div>
+
+</body>
+</html>
