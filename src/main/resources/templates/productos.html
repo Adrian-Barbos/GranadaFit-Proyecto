@@ -1,108 +1,189 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Granada Fit | Productos </title>
+    <title>GranadaFit | Productos</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="productos-body">
 
 <header>
     <nav class="navbar">
-        <div class="logo">Granada<span>Fit</span></div>
+        <a th:href="@{/}" class="logo logo-link">Granada<span>Fit</span></a>
+
         <ul class="nav-links">
-            <a th:href="@{/}" class="btn-botones">Inicio</a>
-            <li><a href="productos.html" class="active">Productos</a></li>
-            <li><a href="index.html" class="active">Sobre Nosotros</a></li>
-
-
-
+            <li><a th:href="@{/}">Inicio</a></li>
+            <li><a th:href="@{/productos}" class="active" aria-current="page">Productos</a></li>
+            <li><a th:href="@{/precios}">Precios</a></li>
+            <li><a th:href="@{/calculadora}">Calculadora</a></li>
         </ul>
 
-        <div th:if="${#authorization.expression('!isAuthenticated()')}">
-            <a th:href="@{/login}" class="btn-botones">Iniciar Sesión</a>
+        <div class="nav-actions" sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="btn-login">Iniciar Sesión</a>
         </div>
 
-        <div th:if="${#authorization.expression('isAuthenticated()')}" style="display: flex; align-items: center; gap: 15px;">
-            <span>Hola, <strong th:text="${#authentication.name}">usuario</strong></span>
-            <a th:href="@{/perfil}" class="btn-botones">Mi Perfil</a>
-            <form th:action="@{/logout}" method="post" style="display: inline;">
-                <button type="submit" style="background:none; border:none; color:red; cursor:pointer;">Salir</button>
-            </form>
+        <div class="nav-actions user-summary" sec:authorize="isAuthenticated()">
+            <span>Hola, <strong sec:authentication="name">usuario</strong></span>
+            <a th:href="@{/perfil}" class="btn-login">Mi Perfil</a>
         </div>
-
     </nav>
 </header>
 
-<main class="productos-page container">
-    <h1 class="section-title">Nuestra Gama Completa</h1>
+<main class="productos-page">
+    <section class="productos-hero">
+        <div class="productos-hero-text">
+            <span class="eyebrow">Catálogo GranadaFit</span>
+            <h1>Suplementos seleccionados para entrenar mejor</h1>
+            <p>Proteínas, creatinas, pre-entrenos y recuperación con una presentación más clara, profesional y fácil de consultar.</p>
+            <div class="hero-metrics" aria-label="Ventajas de compra">
+                <span><strong>24/48h</strong> Envío rápido</span>
+                <span><strong>+6</strong> Categorías</span>
+                <span><strong>100%</strong> Calidad revisada</span>
+            </div>
+        </div>
+        <div class="productos-hero-media">
+            <img th:src="@{/img/productos/productos.png}" alt="Selección de productos GranadaFit"
+                 onerror="this.onerror=null; this.src='/img/img-index/productos.png';">
+        </div>
+    </section>
 
-    <div class="layout-productos">
-        <aside class="filters">
-            <h3>Categorías</h3>
-            <ul>
-                <li><input type="checkbox" id="prot"> <label for="prot">Proteínas</label></li>
-                <li><input type="checkbox" id="crea"> <label for="crea">Creatinas</label></li>
-                <li><input type="checkbox" id="pre"> <label for="pre">Pre-Entrenos</label></li>
-                <li><input type="checkbox" id="vit"> <label for="vit">Vitaminas</label></li>
-            </ul>
+    <section class="productos-shop container">
+        <aside class="filters" aria-label="Filtros de productos">
+            <div class="filter-block">
+                <h2>Filtros</h2>
+                <p>Encuentra rápido lo que necesitas para tu objetivo.</p>
+            </div>
 
-            <h3 style="margin-top: 20px;">Rango de Precio</h3>
-            <input type="range" min="10" max="100" class="price-slider">
-            <p>Hasta: $100</p>
+            <div class="filter-block">
+                <h3>Categorías</h3>
+                <ul>
+                    <li><input type="checkbox" id="prot"> <label for="prot">Proteínas</label></li>
+                    <li><input type="checkbox" id="crea"> <label for="crea">Creatinas</label></li>
+                    <li><input type="checkbox" id="pre"> <label for="pre">Pre-entrenos</label></li>
+                    <li><input type="checkbox" id="vit"> <label for="vit">Vitaminas</label></li>
+                    <li><input type="checkbox" id="rec"> <label for="rec">Recuperación</label></li>
+                </ul>
+            </div>
+
+            <div class="filter-block">
+                <h3>Precio máximo</h3>
+                <input type="range" min="10" max="100" value="65" class="price-slider" aria-label="Precio máximo">
+                <p>Hasta 65 EUR</p>
+            </div>
         </aside>
 
-        <section class="grid-productos-full">
-            <div class="card fade-in">
-                <div class="card-img">ISO Whey Pro</div>
-                <h3>Proteína Isolada</h3>
-                <p class="category">Proteínas</p>
-                <p class="price">$55.00</p>
-                <button class="btn-buy">Ver Detalle</button>
+        <section class="productos-content" aria-labelledby="productos-title">
+            <div class="productos-toolbar">
+                <div>
+                    <span class="eyebrow">Productos destacados</span>
+                    <h2 id="productos-title">Nuestra gama completa</h2>
+                </div>
+                <span class="stock-pill">Stock disponible</span>
             </div>
-            <div class="card fade-in">
-                <div class="card-img">Pure Creatine</div>
-                <h3>Creatina HCL</h3>
-                <p class="category">Creatinas</p>
-                <p class="price">$28.00</p>
-                <button class="btn-buy">Ver Detalle</button>
-            </div>
-            <div class="card fade-in">
-                <div class="card-img">Nitro Pump</div>
-                <h3>Pre-Entreno No2</h3>
-                <p class="category">Pre-Entrenos</p>
-                <p class="price">$35.00</p>
-                <button class="btn-buy">Ver Detalle</button>
-            </div>
-            <div class="card fade-in">
-                <div class="card-img">Multivit-X</div>
-                <h3>Multivitamínico</h3>
-                <p class="category">Vitaminas</p>
-                <p class="price">$15.00</p>
-                <button class="btn-buy">Ver Detalle</button>
-            </div>
-            <div class="card fade-in">
-                <div class="card-img">BCAA 2:1:1</div>
-                <h3>Aminoácidos Ramif.</h3>
-                <p class="category">Recuperación</p>
-                <p class="price">$22.00</p>
-                <button class="btn-buy">Ver Detalle</button>
-            </div>
-            <div class="card fade-in">
-                <div class="card-img">Casein Night</div>
-                <h3>Proteína Caseína</h3>
-                <p class="category">Proteínas</p>
-                <p class="price">$48.00</p>
-                <button class="btn-buy">Ver Detalle</button>
+
+            <div class="grid-productos-full">
+                <article class="card product-card fade-in">
+                    <div class="card-img">
+                        <img src="/img/productos/proteinaisolada.png" alt="Proteína isolada GranadaFit">
+                    </div>
+                    <div class="card-body">
+                        <p class="category">Proteínas</p>
+                        <h3>Proteína Isolada</h3>
+                        <p class="product-copy">Fórmula ligera para recuperación muscular después del entrenamiento.</p>
+                        <div class="product-footer">
+                            <p class="price">55,00 EUR</p>
+                            <button class="btn-buy" type="button">Ver detalle</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card product-card fade-in">
+                    <div class="card-img">
+                        <img src="/img/productos/creatina.png" alt="Creatina GranadaFit">
+                    </div>
+                    <div class="card-body">
+                        <p class="category">Creatinas</p>
+                        <h3>Creatina HCL</h3>
+                        <p class="product-copy">Apoyo diario para fuerza, potencia y entrenamientos intensos.</p>
+                        <div class="product-footer">
+                            <p class="price">28,00 EUR</p>
+                            <button class="btn-buy" type="button">Ver detalle</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card product-card fade-in">
+                    <div class="card-img">
+                        <img src="/img/productos/pre-entreno.png" alt="Pre-entreno GranadaFit">
+                    </div>
+                    <div class="card-body">
+                        <p class="category">Pre-entrenos</p>
+                        <h3>OPTIMUM NUTRITION | PRE-WORKOUT</h3>
+                        <p class="product-copy">Energía y concentración para sesiones exigentes de alto ritmo.</p>
+                        <div class="product-footer">
+                            <p class="price">35,00 EUR</p>
+                            <button class="btn-buy" type="button">Ver detalle</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card product-card fade-in">
+                    <div class="card-img">
+                        <img th:src="@{/img/productos/multivitaminico.png}" alt="Multivitamínico GranadaFit"
+                             onerror="this.onerror=null; this.src='/img/img-index/productos.png';">
+                    </div>
+                    <div class="card-body">
+                        <p class="category">Vitaminas</p>
+                        <h3>Multivitamínico</h3>
+                        <p class="product-copy">Micronutrientes esenciales para completar tu rutina diaria.</p>
+                        <div class="product-footer">
+                            <p class="price">15,00 EUR</p>
+                            <button class="btn-buy" type="button">Ver detalle</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card product-card fade-in">
+                    <div class="card-img">
+                        <img th:src="@{/img/productos/bcaa.png}" alt="Aminoácidos GranadaFit"
+                             onerror="this.onerror=null; this.src='/img/img-index/productos.png';">
+                    </div>
+                    <div class="card-body">
+                        <p class="category">Recuperación</p>
+                        <h3>BCAA 2:1:1</h3>
+                        <p class="product-copy">Aminoácidos pensados para recuperación y sesiones frecuentes.</p>
+                        <div class="product-footer">
+                            <p class="price">22,00 EUR</p>
+                            <button class="btn-buy" type="button">Ver detalle</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card product-card fade-in">
+                    <div class="card-img">
+                        <img th:src="@{/img/productos/caseina-night.png}" alt="Caseína GranadaFit"
+                             onerror="this.onerror=null; this.src='/img/img-index/productos.png';">
+                    </div>
+                    <div class="card-body">
+                        <p class="category">Proteínas</p>
+                        <h3>Caseína Night</h3>
+                        <p class="product-copy">Proteína de absorción lenta para cuidar la recuperación nocturna.</p>
+                        <div class="product-footer">
+                            <p class="price">48,00 EUR</p>
+                            <button class="btn-buy" type="button">Ver detalle</button>
+                        </div>
+                    </div>
+                </article>
             </div>
         </section>
-    </div>
+    </section>
 </main>
 
 <footer>
-    <p>&copy; 2026 SupleFit - Tu tienda de confianza</p>
+    <p>&copy; 2026 GranadaFit - Tu tienda de confianza</p>
 </footer>
 
 </body>
