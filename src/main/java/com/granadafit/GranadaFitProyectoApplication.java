@@ -9,5 +9,4 @@ public class GranadaFitProyectoApplication {
     public static void main(String[] args) {
         SpringApplication.run(GranadaFitProyectoApplication.class, args);
     }
-
 }
