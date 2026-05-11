@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GranadaFit | Carrito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --dark-color: #2f2f2f;
+            --light-bg: #f5f8fc;
+            --white: #ffffff;
+            --muted: #6c757d;
+            --border: #e6edf5;
+            --danger: #dc3545;
+            --shadow: 0 20px 45px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--light-bg);
+            color: var(--dark-color);
+        }
+
+        .topbar {
+            background: var(--white);
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .top-link {
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 700;
+            background: #f1f5fb;
+            padding: 10px 18px;
+            border-radius: 999px;
+            transition: 0.3s ease;
+        }
+
+        .top-link:hover {
+            background: var(--dark-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .cart-page {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 62px 6% 90px;
+        }
+
+        .page-title {
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+        }
+
+        .page-title h1 span {
+            color: var(--primary-color);
+        }
+
+        .page-title p {
+            color: var(--muted);
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 330px;
+            gap: 28px;
+        }
+
+        .cart-list,
+        .summary-card,
+        .login-warning {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 14px 34px rgba(0,0,0,0.05);
+        }
+
+        .cart-list {
+            padding: 12px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: center;
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item h3 {
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+
+        .cart-item p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn,
+        .remove-btn {
+            border: none;
+            cursor: pointer;
+            font-weight: 800;
+            transition: 0.3s ease;
+        }
+
+        .qty-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f1f5fb;
+            color: var(--dark-color);
+        }
+
+        .qty-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .remove-btn {
+            background: rgba(220,53,69,0.1);
+            color: var(--danger);
+            border-radius: 999px;
+            padding: 8px 12px;
+        }
+
+        .summary-card {
+            padding: 26px;
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+        }
+
+        .summary-card h2 {
+            font-size: 1.35rem;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+            margin-top: 18px;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            padding: 15px 18px;
+            margin-top: 24px;
+            background: linear-gradient(135deg, var(--primary-color), #0056d6);
+            color: var(--white);
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 16px 34px rgba(0,123,255,0.32);
+            transition: 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 42px rgba(0,123,255,0.42);
+        }
+
+        .empty-cart,
+        .login-warning {
+            padding: 34px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-cart a,
+        .login-warning a {
+            color: var(--primary-color);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo">Granada<span>Fit</span></div>
+    <a th:href="@{/productos}" class="top-link">Seguir comprando</a>
+</header>
+
+<main class="cart-page" sec:authorize="isAuthenticated()">
+    <section class="page-title">
+        <h1>Tu <span>carrito</span></h1>
+        <p>Revisa tus productos antes de pasar a la pasarela de pago.</p>
+    </section>
+
+    <section class="cart-layout">
+        <div class="cart-list" id="cart-list"></div>
+
+        <aside class="summary-card">
+            <h2>Resumen</h2>
+            <div class="summary-row">
+                <span>Productos</span>
+                <strong id="summary-items">0</strong>
+            </div>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong id="summary-subtotal">0.00€</strong>
+            </div>
+            <div class="summary-total">
+                <span>Total</span>
+                <strong id="summary-total">0.00€</strong>
+            </div>
+            <button type="button" class="checkout-btn" id="checkout-btn">Finalizar compra</button>
+        </aside>
+    </section>
+</main>
+
+<main class="cart-page" sec:authorize="isAnonymous()">
+    <div class="login-warning">
+        <h1>Inicia sesion para ver tu carrito</h1>
+        <p>El carrito de GranadaFit solo esta disponible para usuarios registrados.</p>
+        <a th:href="@{/login}">Iniciar sesion</a>
+    </div>
+</main>
+
+<script>
+    const CART_KEY = 'granadafit_cart';
+    const cartList = document.getElementById('cart-list');
+    const summaryItems = document.getElementById('summary-items');
+    const summarySubtotal = document.getElementById('summary-subtotal');
+    const summaryTotal = document.getElementById('summary-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    function getCart() {
+        return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        renderCart();
+    }
+
+    function formatPrice(value) {
+        return `${value.toFixed(2)}€`;
+    }
+
+    function renderCart() {
+        if (!cartList) return;
+
+        const cart = getCart();
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        summaryItems.textContent = totalItems;
+        summarySubtotal.textContent = formatPrice(subtotal);
+        summaryTotal.textContent = formatPrice(subtotal);
+
+        if (cart.length === 0) {
+            cartList.innerHTML = '<div class="empty-cart"><h2>Tu carrito esta vacio</h2><p>Vuelve a productos y anade tus suplementos favoritos.</p><a href="/productos">Ver productos</a></div>';
+            return;
+        }
+
+        cartList.innerHTML = cart.map((item, index) => `
+            <article class="cart-item">
+                <div>
+                    <h3>${item.name}</h3>
+                    <p>${item.category} | ${formatPrice(item.price)} unidad</p>
+                </div>
+                <div class="item-actions">
+                    <button class="qty-btn" data-action="decrease" data-index="${index}">-</button>
+                    <strong>${item.quantity}</strong>
+                    <button class="qty-btn" data-action="increase" data-index="${index}">+</button>
+                    <button class="remove-btn" data-action="remove" data-index="${index}">Quitar</button>
+                </div>
+            </article>
+        `).join('');
+    }
+
+    cartList?.addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button) return;
+
+        const cart = getCart();
+        const index = Number(button.dataset.index);
+        const action = button.dataset.action;
+
+        if (action === 'increase') cart[index].quantity += 1;
+        if (action === 'decrease') cart[index].quantity -= 1;
+        if (action === 'remove' || cart[index]?.quantity <= 0) cart.splice(index, 1);
+
+        saveCart(cart);
+    });
+
+    checkoutBtn?.addEventListener('click', () => {
+        const cart = getCart();
+        if (cart.length === 0) return;
+        window.open('/pasarela-producto', '_blank');
+    });
+
+    renderCart();
+</script>
+
+</body>
+</html>
