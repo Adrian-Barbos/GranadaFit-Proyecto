@@ -1,7 +1,7 @@
-package repository;
+package com.granadafit.repository;
 
 
-import model.Pedido;
+import com.granadafit.model.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

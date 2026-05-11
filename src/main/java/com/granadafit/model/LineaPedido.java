@@ -1,4 +1,4 @@
-package model;
+package com.granadafit.model;
 
 
 import com.granadafit.Producto;
