@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GranadaFit | Pasarela de producto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --dark-color: #2f2f2f;
+            --light-bg: #f5f8fc;
+            --white: #ffffff;
+            --muted: #6c757d;
+            --border: #e6edf5;
+            --success: #18a058;
+            --shadow: 0 20px 45px rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--light-bg);
+            color: var(--dark-color);
+        }
+
+        .checkout-page {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 60px 6% 90px;
+        }
+
+        .checkout-header {
+            margin-bottom: 28px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .checkout-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+        }
+
+        .checkout-header h1 span {
+            color: var(--primary-color);
+        }
+
+        .checkout-header p {
+            color: var(--muted);
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 28px;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 14px 34px rgba(0,0,0,0.05);
+        }
+
+        .panel h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .checkout-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checkout-item:last-child {
+            border-bottom: none;
+        }
+
+        .checkout-item p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .discount-box {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .discount-box label {
+            font-weight: 700;
+        }
+
+        .discount-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .discount-actions input {
+            flex: 1;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 14px;
+            outline: none;
+        }
+
+        .discount-actions input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0,123,255,0.12);
+        }
+
+        .apply-btn,
+        .pay-btn {
+            border: none;
+            border-radius: 999px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .apply-btn {
+            padding: 12px 18px;
+            background: var(--dark-color);
+            color: var(--white);
+        }
+
+        .apply-btn:hover {
+            background: var(--primary-color);
+        }
+
+        .summary-row,
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 12px;
+            color: var(--muted);
+        }
+
+        .summary-total {
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+            margin-top: 18px;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .discount-message {
+            min-height: 22px;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .pay-btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 15px 18px;
+            background: linear-gradient(135deg, var(--primary-color), #0056d6);
+            color: var(--white);
+            box-shadow: 0 16px 34px rgba(0,123,255,0.32);
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 42px rgba(0,123,255,0.42);
+        }
+
+        .secure-text {
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<main class="checkout-page" sec:authorize="isAuthenticated()">
+    <header class="checkout-header">
+        <div class="logo">Granada<span>Fit</span></div>
+        <h1>Finalizar <span>compra</span></h1>
+        <p>Revisa tus productos y aplica tu codigo de descuento antes de pagar.</p>
+    </header>
+
+    <section class="checkout-layout">
+        <div class="panel">
+            <h2>Productos seleccionados</h2>
+            <div id="checkout-items"></div>
+        </div>
+
+        <aside class="panel">
+            <h2>Codigo de descuento</h2>
+            <div class="discount-box">
+                <label for="discount-code">Introduce tu codigo</label>
+                <div class="discount-actions">
+                    <input id="discount-code" type="text" placeholder="Ej: PLUS5">
+                    <button type="button" class="apply-btn" id="apply-discount">Aplicar</button>
+                </div>
+                <p class="discount-message" id="discount-message"></p>
+            </div>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <strong id="subtotal">0.00€</strong>
+            </div>
+            <div class="summary-row">
+                <span>Descuento</span>
+                <strong id="discount">0.00€</strong>
+            </div>
+            <div class="summary-total">
+                <span>Total</span>
+                <strong id="total">0.00€</strong>
+            </div>
+
+            <button type="button" class="pay-btn">Pagar ahora</button>
+            <p class="secure-text">Pago seguro GranadaFit</p>
+        </aside>
+    </section>
+</main>
+
+<script>
+    const CART_KEY = 'granadafit_cart';
+    const DISCOUNT_KEY = 'granadafit_discount';
+    const checkoutItems = document.getElementById('checkout-items');
+    const subtotalEl = document.getElementById('subtotal');
+    const discountEl = document.getElementById('discount');
+    const totalEl = document.getElementById('total');
+    const discountInput = document.getElementById('discount-code');
+    const applyDiscount = document.getElementById('apply-discount');
+    const discountMessage = document.getElementById('discount-message');
+
+    function getCart() {
+        return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    }
+
+    function formatPrice(value) {
+        return `${value.toFixed(2)}€`;
+    }
+
+    function getSubtotal(cart) {
+        return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    }
+
+    function getDiscount(subtotal) {
+        const code = (localStorage.getItem(DISCOUNT_KEY) || '').toUpperCase();
+        if (code === 'PLUS5') return subtotal * 0.05;
+        if (code === 'PRO10') return subtotal * 0.10;
+        return 0;
+    }
+
+    function renderCheckout() {
+        const cart = getCart();
+        const subtotal = getSubtotal(cart);
+        const discount = getDiscount(subtotal);
+        const total = Math.max(subtotal - discount, 0);
+
+        if (cart.length === 0) {
+            checkoutItems.innerHTML = '<p style="color: #6c757d;">No hay productos en el carrito.</p>';
+        } else {
+            checkoutItems.innerHTML = cart.map(item => `
+                <article class="checkout-item">
+                    <div>
+                        <strong>${item.name}</strong>
+                        <p>${item.category} | Cantidad: ${item.quantity}</p>
+                    </div>
+                    <strong>${formatPrice(item.price * item.quantity)}</strong>
+                </article>
+            `).join('');
+        }
+
+        subtotalEl.textContent = formatPrice(subtotal);
+        discountEl.textContent = `-${formatPrice(discount)}`;
+        totalEl.textContent = formatPrice(total);
+    }
+
+    applyDiscount?.addEventListener('click', () => {
+        const code = discountInput.value.trim().toUpperCase();
+
+        if (code === 'PLUS5' || code === 'PRO10') {
+            localStorage.setItem(DISCOUNT_KEY, code);
+            discountMessage.textContent = `Codigo ${code} aplicado correctamente.`;
+        } else {
+            localStorage.removeItem(DISCOUNT_KEY);
+            discountMessage.textContent = 'Codigo no valido. Prueba PLUS5 o PRO10.';
+        }
+
+        renderCheckout();
+    });
+
+    renderCheckout();
+</script>
+
+</body>
+</html>
