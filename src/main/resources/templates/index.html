@@ -4,10 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GranadaFit | Tienda de Suplementos deportivos</title>
+  <title>GranadaFit | Suplementos y planes fitness</title>
   <link rel="stylesheet" th:href="@{/styles.css}">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,31 +14,78 @@
   <nav class="navbar">
     <div class="logo">Granada<span>Fit</span></div>
     <ul class="nav-links">
-      <li><a th:href="@{/index}">Inicio</a></li>
+      <li><a th:href="@{index.html}">Inicio</a></li>
       <li><a th:href="@{/productos}">Productos</a></li>
       <li><a th:href="@{/precios}">Precios</a></li>
+      <li><a th:href="@{/calculadora}">Calculadora</a></li>
     </ul>
 
     <div sec:authorize="isAnonymous()">
-      <a href="/login" class="btn-login">Iniciar Sesión</a>
+      <a th:href="@{/login}" class="btn-login">Iniciar Sesi&oacute;n</a>
     </div>
 
-    <div sec:authorize="isAuthenticated()">
-      <span>Hola, <strong sec:authentication="name">Usuario</strong></span>
-      <a th:href="@{/perfil}" class="btn-login">Mi Perfil</a>
-      <form th:action="@{/logout}" method="post" style="display:inline;">
-        <button type="submit" class="btn-salir">Salir</button>
-      </form>
+    <div sec:authorize="isAuthenticated()" class="user-nav">
+      <span class="user-greeting">Hola, <strong sec:authentication="name">Usuario</strong></span>
+      <a th:href="@{/perfil}" class="btn-profile">Mi Perfil</a>
     </div>
-
   </nav>
 </header>
 
+<div class="promo-banner">
+  <div class="promo-track">
+    <span>Envios gratis a partir de 50&euro;</span>
+    <span>Descuento en Plan Pro</span>
+    <span>Descuento en Plan Plus</span>
+    <span>Nueva Calculadora IMC</span>
+    <span>Ofertas semanales para miembros</span>
+    <span>Suplementacion deportiva de calidad</span>
+  </div>
+</div>
+
 <section id="inicio" class="hero">
   <div class="hero-content">
-    <h1>Potencia tu <span class="highlight">Rendimiento</span></h1>
-    <h3>Los <span>mejores suplementos</span> para alcanzar tus metas fitness.</h3>
-    <a href="productos.html" class="btn-main">Productos</a>
+    <h1>Potencia tu <span class="highlight">rendimiento</span> con GranadaFit</h1>
+    <h3>Productos deportivos, planes premium y herramientas para entrenar con un objetivo claro desde el primer dia.</h3>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="trust-item">
+    <strong>50&euro;</strong>
+    <span>Envio gratis desde este importe</span>
+  </div>
+  <div class="trust-item">
+    <strong>+10%</strong>
+    <span>Descuentos para miembros Pro</span>
+  </div>
+  <div class="trust-item">
+    <strong>IMC</strong>
+    <span>Calculadora para controlar tu progreso</span>
+  </div>
+  <div class="trust-item">
+    <strong>VIP</strong>
+    <span>Planes Plus y Pro con ventajas extra</span>
+  </div>
+</section>
+
+<section class="container">
+  <h2 class="section-title">Todo lo que necesitas para avanzar</h2>
+  <div class="benefits-grid">
+    <article class="benefit-card">
+      <span>01</span>
+      <h3>Suplementos seleccionados</h3>
+      <p>Proteinas, creatinas, vitaminas y pre-entrenos pensados para mejorar tu rendimiento diario.</p>
+    </article>
+    <article class="benefit-card">
+      <span>02</span>
+      <h3>Planes con ventajas reales</h3>
+      <p>Accede a descuentos, calculadora IMC y beneficios exclusivos segun tu plan GranadaFit.</p>
+    </article>
+    <article class="benefit-card">
+      <span>03</span>
+      <h3>Objetivos medibles</h3>
+      <p>Controla tu evolucion con herramientas sencillas y una experiencia enfocada en resultados.</p>
+    </article>
   </div>
 </section>
 
@@ -47,16 +93,32 @@
   <div class="container about-flex">
     <div class="about-text">
       <h2>Sobre <span class="highlight">Nosotros</span></h2>
-      <p>En <strong>GranadaFit</strong>, no solo vendemos suplementos; impulsamos tu estilo de vida. Nacimos con la misión de ofrecer la mejor suplementación deportiva con asesoramiento real.</p>
-      <p>Seleccionamos cada producto bajo los más altos estándares de calidad para que tú solo te preocupes de entrenar duro.</p>
+      <p>En <strong>GranadaFit</strong> combinamos suplementacion deportiva, asesoramiento y planes pensados para personas que quieren entrenar mejor sin complicarse.</p>
+      <p>Seleccionamos productos de calidad y los acompanamos con herramientas utiles para que puedas avanzar con constancia.</p>
+      <a th:href="@{/calculadora}" class="btn-main">Probar calculadora IMC</a>
     </div>
     <div class="about-img-grid">
       <div class="img-box">
-        <img th:src="@{/img/img-index/productos.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+        <img th:src="@{/img/img-index/productos.png}" alt="Productos GranadaFit">
       </div>
       <div class="img-box">
-        <img th:src="@{/img/img-index/equipo.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+        <img th:src="@{/img/img-index/equipo.png}" alt="Equipo GranadaFit">
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="plan-preview">
+  <div class="plan-preview-inner">
+    <div>
+      <h2>Elige el plan que encaja contigo</h2>
+      <p>Desde una cuenta gratuita hasta ventajas premium para quienes quieren descuentos, acceso completo y seguimiento personalizado.</p>
+      <a th:href="@{/precios}" class="btn-main">Ver planes</a>
+    </div>
+    <div class="plan-list">
+      <div><strong>FREE</strong> Tienda online y perfil basico.</div>
+      <div><strong>PLUS</strong> Calculadora IMC, descuentos y acceso a instalaciones.</div>
+      <div><strong>PRO</strong> Ventajas VIP, seguimiento y mayor descuento.</div>
     </div>
   </div>
 </section>
@@ -66,24 +128,26 @@
   <div class="grid-opiniones">
     <div class="opinion-card">
       <div class="customer-img">
-        <img th:src="@{/img/img-index/c1.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+        <img th:src="@{/img/img-index/c1.png}" alt="Cliente GranadaFit">
       </div>
-      <p class="review">"La proteína de GranadaFit tiene un sabor increíble y se disuelve perfecto. ¡100% recomendados!"</p>
-      <h4>- Juan Pérez</h4>
+      <div class="rating" aria-label="5 de 5 estrellas">★★★★★</div>
+      <p class="review">"La proteina de GranadaFit tiene un sabor increible y se disuelve perfecto. 100% recomendados."</p>
+      <h4>- Juan Perez</h4>
     </div>
     <div class="opinion-card">
       <div class="customer-img">
-        <img th:src="@{/img/img-index/c2.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
+        <img th:src="@{/img/img-index/c2.png}" alt="Cliente GranadaFit">
       </div>
-      <p class="review">"Envío súper rápido a Granada. La creatina es de una calidad superior a lo que compraba antes."</p>
-      <h4>- María García</h4>
+      <div class="rating" aria-label="5 de 5 estrellas">★★★★★</div>
+      <p class="review">"Envio rapido en Granada y productos de mucha calidad. La creatina me va genial."</p>
+      <h4>- Maria Garcia</h4>
     </div>
     <div class="opinion-card">
       <div class="customer-img">
-        <img th:src="@{/img/img-index/c3.png}" alt="Equipo GranadaFit" style="width: 100%; height: 100%; object-fit: cover;">
-
+        <img th:src="@{/img/img-index/c3.png}" alt="Cliente GranadaFit">
       </div>
-      <p class="review">"Me ayudaron a elegir mi pre-entreno por WhatsApp. Trato muy cercano y profesional."</p>
+      <div class="rating" aria-label="5 de 5 estrellas">★★★★★</div>
+      <p class="review">"Me ayudaron a elegir mi pre-entreno. Trato cercano, profesional y muy claro."</p>
       <h4>- Carlos Ruiz</h4>
     </div>
   </div>
@@ -95,3 +159,4 @@
 
 </body>
 </html>
+
