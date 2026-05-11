@@ -1,4 +1,4 @@
-package com.granadafit;
+package com.granadafit.model;
 
 import jakarta.persistence.*;
 
