@@ -22,19 +22,9 @@ public class MainController {
 
     @GetMapping("/perfil")
     public String verPerfil(Model model) {
-        // Buscamos al usuario de la base de datos
         Usuario usuario = usuarioRepository.findById(1L).orElse(null);
-
-        // Lo "enviamos" al HTML
         model.addAttribute("usuario", usuario);
-
-        return "perfil"; // Esto abre el archivo perfil.html
-    }
-
-    @GetMapping("/perfil")
-    public String perfil(Model model) {
-
-        model.addAttribute("usuarioNombre", "Usuario GranadaFit");
+        model.addAttribute("usuarioNombre", usuario != null ? usuario.getNombre() : "Usuario GranadaFit");
         return "perfil";
     }
 
