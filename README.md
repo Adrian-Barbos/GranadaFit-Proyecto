@@ -1,6 +1,6 @@
 # 🏋️‍♂️ Granada-Fit 
 
-**Granada-Fit** es una plataforma integral de gestión fitness desarrollada con Spring Boot. El sistema permite a los usuarios gestionar sus progresos, calcular su IMC y acceder a planes de entrenamiento personalizados según su suscripción.
+**Granada-Fit** es una plataforma integral de gestión fitness desarrollada con Spring Boot. El sistema permite a los usuarios calcular su IMC y acceder a planes de entrenamiento personalizados según su suscripción.
 
 ---
 
@@ -9,21 +9,20 @@
 ### 💳 Sistema de Planes (Suscripciones)
 El acceso a las funcionalidades está segmentado mediante tres niveles de usuario:
 * **Plan FREE (0€):** Acceso al catálogo de la tienda y perfil básico.
-* **Plan PLUS (20€):** Incluye **Calculadora de IMC Pro**, registro de marcas personales (PRs) y acceso físico al gimnasio.
-* **Plan PRO (200€):** El servicio definitivo con **Generador de Rutinas Personalizadas**, chat con entrenador y seguimiento de dieta.
+* **Plan PLUS (19,99€):** Incluye **Calculadora de IMC**, registro de marcas personales (PRs) y acceso físico al gimnasio.
+* **Plan PRO (89,99€):** Incluye **Calculadora de IMC** , chat con entrenador y seguimiento de dieta.
 
 ### 🛠️ Herramientas Técnicas
 * **Calculadora de IMC:** Lógica personalizada para el cálculo de salud metabólica.
-* **Generador de Rutinas:** Algoritmo que filtra ejercicios según el objetivo y nivel del usuario.
-* **Tienda Integrada:** Visualización de suplementación y ropa deportiva.
+* **Tienda Integrada:** Suplementación indispensable para el entrenamiento.
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
 * **Backend:** Java 17+ con **Spring Boot 3**.
-* **Persistencia:** Spring Data JPA con base de datos **H2/MySQL**.
-* **Motor de Plantillas:** Thymeleaf (HTML5, CSS3, JavaScript).
+* **Persistencia:** Spring Data JPA con base de datos **H2**.
+* **Motor de Plantillas:** Thymeleaf (HTML5, CSS).
 * **Gestión de Dependencias:** Maven.
 * **IDE:** IntelliJ IDEA.
 
