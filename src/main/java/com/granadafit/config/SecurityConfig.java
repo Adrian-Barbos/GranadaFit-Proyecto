@@ -42,4 +42,15 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("Adrian")
+                .password("1234")
+                .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+
 }

@@ -427,55 +427,5 @@
     <p>&copy; 2026 GranadaFit - Tu tienda de confianza</p>
 </footer>
 
-<script>
-    const CART_KEY = 'granadafit_cart';
-    const buttons = document.querySelectorAll('.btn-add-cart');
-    const cartCount = document.getElementById('cart-count');
-    const toast = document.getElementById('toast');
-
-    function getCart() {
-        return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-    }
-
-    function saveCart(cart) {
-        localStorage.setItem(CART_KEY, JSON.stringify(cart));
-        updateCartCount();
-    }
-
-    function updateCartCount() {
-        const total = getCart().reduce((sum, item) => sum + item.quantity, 0);
-        if (cartCount) cartCount.textContent = total;
-    }
-
-    function showToast() {
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 1600);
-    }
-
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const cart = getCart();
-            const name = button.dataset.name;
-            const product = cart.find(item => item.name === name);
-
-            if (product) {
-                product.quantity += 1;
-            } else {
-                cart.push({
-                    name: name,
-                    category: button.dataset.category,
-                    price: Number(button.dataset.price),
-                    quantity: 1
-                });
-            }
-
-            saveCart(cart);
-            showToast();
-        });
-    });
-
-    updateCartCount();
-</script>
-
 </body>
 </html>
