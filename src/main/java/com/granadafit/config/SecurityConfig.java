@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/styles.css").permitAll()
+                        .requestMatchers("/css/", "/js/", "/img/**", "/styles.css").permitAll()
 
 
                         .requestMatchers("/", "/index", "/productos", "/login", "/register", "/precios").permitAll()
@@ -41,16 +41,5 @@ public class SecurityConfig {
                 );
 
         return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("user")
-                .password("{noop}user123")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
     }
 }
